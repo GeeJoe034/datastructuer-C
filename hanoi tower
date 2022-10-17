@@ -1,0 +1,345 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+int A[4],B[4],C[4];
+int topA = -1;
+int topB = -1;
+int topC = -1;
+
+bool isFullA(){
+	if(topA == 3){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool isFullB(){
+	if(topB == 3){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool isFullC(){
+	if(topC == 3){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool isEmptyA(){
+	if(topA == -1){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool isEmptyB(){
+	if(topB == -1){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool isEmptyC(){
+	if(topC == -1){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+void pushA(int data){
+	if(isFullA()){
+		return;
+	}
+	else{
+		topA = topA + 1;
+		A[topA] = data;
+	}
+}
+
+void pushB(int data){
+	if(isFullB()){
+		return;
+	}
+	else{
+		topB = topB + 1;
+		B[topB] = data;
+	}
+}
+
+void pushC(int data){
+	if(isFullC()){
+		return;
+	}
+	else{
+		topC = topC + 1;
+		C[topC] = data;
+	}
+}
+
+int popA(){
+	if(isEmptyA()){
+		return -1;
+	}
+	else{
+		int data = A[topA];
+		topA = topA - 1;
+		return data;
+	}
+}
+
+int popB(){
+	if(isEmptyB()){
+		return -1;
+	}
+	else{
+		int data = B[topB];
+		topB = topB - 1;
+		return data;
+	}
+}
+
+int popC(){
+	if(isEmptyC()){
+		return -1;
+	}
+	else{
+		int data = C[topC];
+		topC = topC - 1;
+		return data;
+	}
+}
+
+int peekA(){
+	if(isEmptyA()){
+		return -1;
+	}
+	else{
+		int data = A[topA];
+		return data;
+	}
+}
+
+int peekB(){
+	if(isEmptyB()){
+		return -1;
+	}
+	else{
+		int data = B[topB];
+		return data;
+	}
+}
+
+int peekC(){
+		if(isEmptyC()){
+		return -1;
+	}
+	else{
+		int data = C[topC];
+		return data;
+	}
+}
+
+void showDiskA(){
+	if(isEmptyA()){
+		printf("   ||   \n");
+		return;
+	}
+	for(int i=topA;i>=0;i--){
+		switch (A[i]){
+			case 4:
+				printf("44444444\n");
+				break;
+			case 3:
+				printf(" 333333 \n");
+				break;
+			case 2:
+				printf("  2222  \n");
+				break;
+			case 1:
+				printf("   11   \n");
+				break;
+			case 0:
+				printf("    |    \n");
+				break;
+		}
+	}
+}
+
+void showDiskB(){
+	if(isEmptyB()){
+		printf("   ||   \n");
+		return;
+	}
+	for(int i=topB;i>=0;i--){
+		switch (B[i]){
+			case 4:
+				printf("44444444\n");
+				break;
+			case 3:
+				printf(" 333333 \n");
+				break;
+			case 2:
+				printf("  2222  \n");
+				break;
+			case 1:
+				printf("   11   \n");
+				break;
+			case 0:
+				printf("    |    \n");
+				break;
+		}
+	}
+}
+
+void showDiskC(){
+	if(isEmptyC()){
+		printf("   ||    \n");
+		return;
+	}
+	for(int i=topC;i>=0;i--){
+		switch (C[i]){
+			case 4:
+				printf("44444444\n");
+				break;
+			case 3:
+				printf(" 333333 \n");
+				break;
+			case 2:
+				printf("  2222  \n");
+				break;
+			case 1:
+				printf("   11   \n");
+				break;
+			case 0:
+				printf("    |    \n");
+				break;
+		}
+	}
+}
+
+int getCommand(){
+	int data;
+	scanf("%d",&data);
+	return data;
+}
+
+int main(){
+	int data,data2;
+	pushA(4);
+	pushA(3);
+	pushA(2);
+	pushA(1);
+	
+	for(;;){
+		showDiskA();
+		printf("\n");
+		showDiskB();
+		printf("\n");
+		showDiskC();
+		printf("\n\n");
+		printf("COMMAND >> ");
+		int keyword = getCommand();
+		switch(keyword){
+			case 0:
+				return 0;
+			case 12:
+				data = peekA();
+				if(data == -1){
+					break;
+				}
+				data2 = peekB();
+				if(data2 == -1){
+					pushB(popA());
+				}else{
+					if(data<data2){
+						pushB(popA());
+					}
+				}
+				break;
+			case 13:
+				data = peekA();
+				if(data == -1){
+					break;
+				}
+				data2 = peekC();
+				if(data2 == -1){
+					pushC(popA());
+				}else{
+					if(data2>data){
+						pushC(popA());
+					}
+				}
+				break;
+			case 21:
+				data = peekB();
+				if(data == -1){
+					break;
+				}
+				data2 = peekA();
+				if(data2 == -1){
+					pushA(popB());
+				}else{
+					if(data2>data){
+						pushA(popB());
+					}
+				}
+				break;
+			case 23:
+				data = peekB();
+				if(data == -1){
+					break;
+				}
+				data2 = peekC();
+				if(data2 == -1){
+					pushC(popB());
+				}else{
+					if(data2>data){
+						pushC(popB());
+					}
+				}
+				break;
+			case 31:
+				data = peekC();
+				if(data == -1){
+					break;
+				}
+				data2 = peekA();
+				if(data2 == -1){
+					pushA(popC());
+				}else{
+					if(data2>data){
+						pushA(popC());
+					}
+				}
+				break;
+			case 32:
+				data = peekC();
+				if(data == -1){
+					break;
+				}
+				data2 = peekB();
+				if(data2 == -1){
+					pushB(popC());
+				}else{
+					if(data2>data){
+						pushB(popC());
+					}
+				}
+				break;
+		}
+	}
+}
